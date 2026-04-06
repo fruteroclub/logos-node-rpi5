@@ -265,15 +265,22 @@ wget https://github.com/logos-blockchain/logos-blockchain/releases/download/0.2.
 ### 3.3 Extraer e instalar
 
 ```bash
-# Extraer los circuitos ZK y moverlos donde el nodo los espera
+# Extraer los circuitos ZK
 tar -xzf logos-blockchain-circuits-v0.4.1-linux-aarch64.tar.gz
-mv logos-blockchain-circuits ~/.logos-blockchain-circuits
 
 # Extraer el binario del nodo
 tar -xzf logos-blockchain-node-linux-aarch64-0.2.1.tar.gz
 ```
 
 > `tar -xzf` descomprime archivos `.tar.gz`: `x` = extraer, `z` = descomprimir gzip, `f` = archivo
+
+**Importante:** El directorio extraido incluye la version en el nombre. Hay que renombrarlo a donde el nodo lo espera:
+
+```bash
+mv logos-blockchain-circuits-v0.4.1-linux-aarch64 ~/.logos-blockchain-circuits
+```
+
+> **Tip:** Si no sabes como se llama el directorio extraido, puedes ver el contenido del tar antes de extraer con: `tar -tzf archivo.tar.gz | head -5`
 
 Verifica que el binario existe:
 
