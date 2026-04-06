@@ -4,6 +4,8 @@ Taller de [fruteroclub](https://fruteroclub.com) para instalar y correr un nodo 
 
 No necesitas ser programador ni tener experiencia tecnica. Si puedes seguir instrucciones en una terminal, puedes levantar un nodo.
 
+> Si encuentras un termino que no conoces, consulta el [Glosario de terminos](GLOSARIO.md).
+
 ---
 
 ## Que es todo esto?
