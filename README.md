@@ -362,15 +362,21 @@ Veras algo asi:
 Puedes ejecutar el `curl` varias veces para ver como avanza:
 
 ```
-Primera consulta:   height: 3242   mode: "Bootstrapping"
-Unos minutos despues: height: 7287   mode: "Bootstrapping"
+Primera consulta:      height: 3242    slot: 46926    mode: "Bootstrapping"
+~10 min despues:       height: 7287    slot: 119972   mode: "Bootstrapping"
+~30 min despues:       height: 9152    slot: 150031   mode: "Bootstrapping"
+~1 hora despues:       height: 16333   slot: 283270   mode: "Bootstrapping"
 ...
-Cuando alcance la cadena: height: XXXXX  mode: "Online"
+Cuando alcance la red: height: 156345  slot: ??????   mode: "Online"
 ```
 
 El `height` sube mientras descarga bloques. Cuando tu nodo alcance el bloque mas reciente de la red, `mode` cambiara de `Bootstrapping` a `Online`. Eso significa que tu nodo ya esta sincronizado y participando en la red en tiempo real.
 
-> **Cuanto tarda?** Depende de cuantos bloques tiene la cadena y la velocidad de tu conexion. Puede ser desde unos minutos hasta una hora o mas. Ten paciencia — es como descargar el historial completo de la red.
+Para saber cuanto te falta, compara tu `height` con el height actual de la red en el [Block Explorer](https://devnet.blockchain.logos.co/web/explorer/). En nuestro caso, la red iba en ~156,000 bloques.
+
+> **Cuanto tarda?** En nuestra experiencia (abril 2026), la cadena del devnet tenia ~156,000 bloques. En una Pi 5 conectada por ethernet, el nodo sincronizaba aproximadamente 16,000 bloques por hora. Eso da un estimado de **8-10 horas** para una sincronizacion completa desde cero. Ten paciencia — es como descargar el historial completo de la red.
+
+> **Tip:** No necesitas estar mirando todo el rato. Lanza el nodo dentro de `screen`, desconecta con `Ctrl+A` + `D`, y vuelve a revisar mas tarde. Si necesitas apagar la Pi (por ejemplo, se acaba la bateria), el nodo retoma donde se quedo al volver a encender (ver seccion "Apagar la Pi de forma segura" mas abajo).
 
 ---
 
