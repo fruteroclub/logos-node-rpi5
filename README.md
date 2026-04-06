@@ -219,12 +219,14 @@ Luego te pide la contrasena. Si usaste la contrasena por defecto: `raspberry`
 Si todo va bien, veras algo asi:
 
 ```
-Linux raspberrypi 6.x.x-v8+ #xxxx SMP PREEMPT aarch64
+Linux raspberrypi 6.12.47+rpt-rpi-2712 #1 SMP PREEMPT Debian 1:6.12.47-1+rpt1 aarch64
 
 pi@raspberrypi:~ $
 ```
 
 Estas dentro de la Pi! Todo lo que escribas ahora se ejecuta en la Raspberry Pi, no en tu ordenador.
+
+> Puede que veas un aviso: "SSH is enabled and the default password for the 'pi' user has not been changed." Esto es un recordatorio de seguridad — lo solucionamos en el siguiente paso.
 
 > **Importante:** Cambia la contrasena por defecto inmediatamente:
 > ```bash
@@ -308,11 +310,19 @@ Desglose:
 
 ### 3.5 Ejecutar el nodo
 
+Antes de ejecutar el nodo directamente, es mejor lanzarlo dentro de `screen` para que siga corriendo aunque cierres la terminal SSH:
+
 ```bash
+sudo apt install screen -y
+screen -S logos
 ./logos-blockchain-node user_config.yaml
 ```
 
-El nodo arranca y empiezas a ver logs. El estado inicial sera **"Bootstrapping"** (sincronizando la cadena), y despues de un rato pasara a **"Online"**.
+El nodo arranca y empiezas a ver muchos logs pasando rapido. El estado inicial sera **"Bootstrapping"** (sincronizando la cadena), y despues de un rato pasara a **"Online"**.
+
+Para "desconectarte" de screen sin detener el nodo: presiona `Ctrl+A` y luego `D`. El nodo sigue corriendo en segundo plano.
+
+Para volver a ver los logs: `screen -r logos`
 
 ### 3.6 Verificar que funciona
 
@@ -328,7 +338,24 @@ Desde esa segunda sesion, consulta el estado del nodo:
 curl -w "\n" http://localhost:8080/cryptarchia/info
 ```
 
-Deberia devolver un JSON con informacion del estado de la cadena.
+Veras algo asi:
+
+```json
+{
+  "lib": "1820d270a382...",
+  "tip": "55539dee68bd...",
+  "slot": 46926,
+  "height": 3242,
+  "mode": "Bootstrapping"
+}
+```
+
+- **height** — el numero de bloque en el que va tu nodo (va subiendo mientras sincroniza)
+- **mode** — el estado actual. Empieza en `Bootstrapping` (descargando bloques) y cuando alcance la cadena cambia a `Online`
+- **slot** — la posicion temporal actual en el consenso
+- **tip** — el hash del ultimo bloque que tu nodo conoce
+
+> **Nota:** Veras muchos logs pasando rapido en la primera terminal, con numeros que se repiten (como "120"). Eso es normal — el nodo esta descargando y procesando bloques. Puede tardar varios minutos dependiendo de cuantos bloques tenga que sincronizar.
 
 ---
 
@@ -366,18 +393,18 @@ Despues de recibir fondos y esperar ~3.5 horas (dos epochs del consenso), tu nod
 
 ### Mantener el nodo corriendo al cerrar SSH
 
-Si cierras la terminal SSH, el nodo se detiene. Para dejarlo corriendo en segundo plano:
+Si lanzaste el nodo con `screen` (como recomendamos en el paso 3.5), ya esta cubierto. Solo recuerda:
+
+- Desconectar screen: `Ctrl+A` luego `D`
+- Reconectar: `screen -r logos`
+- Ver sesiones activas: `screen -ls`
+
+**Alternativa con nohup** (mas sencillo pero sin acceso a los logs en vivo):
 
 ```bash
-# Opcion 1: usar screen
-sudo apt install screen
-screen -S logos
-./logos-blockchain-node user_config.yaml
-# Presiona Ctrl+A, luego D para "desconectar" la sesion
-# Para volver: screen -r logos
-
-# Opcion 2: usar nohup
 nohup ./logos-blockchain-node user_config.yaml > logos.log 2>&1 &
+# Ver los logs despues:
+tail -f logos.log
 ```
 
 ### Reiniciar la Pi remotamente
