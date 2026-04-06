@@ -357,6 +357,21 @@ Veras algo asi:
 
 > **Nota:** Veras muchos logs pasando rapido en la primera terminal, con numeros que se repiten (como "120"). Eso es normal — el nodo esta descargando y procesando bloques. Puede tardar varios minutos dependiendo de cuantos bloques tenga que sincronizar.
 
+### 3.7 Monitorear el progreso de sincronizacion
+
+Puedes ejecutar el `curl` varias veces para ver como avanza:
+
+```
+Primera consulta:   height: 3242   mode: "Bootstrapping"
+Unos minutos despues: height: 7287   mode: "Bootstrapping"
+...
+Cuando alcance la cadena: height: XXXXX  mode: "Online"
+```
+
+El `height` sube mientras descarga bloques. Cuando tu nodo alcance el bloque mas reciente de la red, `mode` cambiara de `Bootstrapping` a `Online`. Eso significa que tu nodo ya esta sincronizado y participando en la red en tiempo real.
+
+> **Cuanto tarda?** Depende de cuantos bloques tiene la cadena y la velocidad de tu conexion. Puede ser desde unos minutos hasta una hora o mas. Ten paciencia — es como descargar el historial completo de la red.
+
 ---
 
 ## Paso 4 — Obtener fondos y producir bloques
