@@ -422,6 +422,46 @@ nohup ./logos-blockchain-node user_config.yaml > logos.log 2>&1 &
 tail -f logos.log
 ```
 
+### Apagar la Pi de forma segura
+
+Esto es importante: **nunca desconectes la alimentacion de golpe**. Si la Pi se apaga sin avisar, puede corromper la tarjeta SD y perder datos. Siempre apaga limpio:
+
+```bash
+ssh pi@192.168.1.69
+sudo shutdown now
+```
+
+Espera unos segundos hasta que el LED verde deje de parpadear. Ya puedes desconectar la alimentacion.
+
+### Reanudar el nodo despues de apagar
+
+Cuando vuelvas a encender la Pi (conectando la alimentacion), solo necesitas:
+
+```bash
+ssh pi@192.168.1.69
+screen -S logos
+./logos-blockchain-node user_config.yaml
+```
+
+El nodo **retoma donde se quedo**. Los bloques que ya descargo quedan guardados en la SD. Si estaba sincronizando y llevaba 16,000 bloques, sigue desde ahi — no empieza de cero.
+
+> **Ejemplo real:** En nuestro taller, la cadena tenia ~156,000 bloques. La sincronizacion tardo varias horas. Tuvimos que apagar la Pi (se acababa la bateria de la power bank) y al reconectar, el nodo retomo exactamente donde se habia quedado.
+
+### Sobre la alimentacion
+
+La Raspberry Pi 5 necesita un cargador de **5V / 5A** (25W) con conector USB-C. El cargador oficial de Raspberry Pi es la mejor opcion (~12 euros).
+
+**Cargadores que NO sirven:**
+- Cargadores de telefono tipicos (5V/2A) — insuficientes, causan throttling
+- Power banks — funcionan temporalmente pero se agotan y pueden cortar sin aviso
+- Cargadores USB genericos de 500mA — la Pi ni enciende
+
+**Cargadores que SI sirven:**
+- Cargador oficial Raspberry Pi 5 (5V/5A) — recomendado
+- Cualquier cargador USB-C PD de al menos 27W (5V/3A minimo)
+
+> Si la Pi no recibe suficiente energia, veras un icono de rayo en pantalla y el procesador se frena (throttling) para consumir menos. Esto hace que la sincronizacion sea mucho mas lenta.
+
 ### Reiniciar la Pi remotamente
 
 ```bash
