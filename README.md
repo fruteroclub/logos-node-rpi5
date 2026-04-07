@@ -498,6 +498,66 @@ Todo esto con un ordenador de ~70 euros que consume menos de 15 watts. Asi se de
 
 ---
 
+## Alternativas: otras formas de correr un nodo
+
+No tienes Raspberry Pi? Hay otras opciones. Las dividimos en dos categorias:
+
+### Self-hosting (tu hardware, en tu casa)
+
+Esta es la opcion mas descentralizada. El nodo corre en hardware que tu controlas, en tu red. Nadie puede apagarlo excepto tu.
+
+| Opcion | Precio aprox. | Consumo | Arquitectura | Notas |
+|--------|--------------|---------|--------------|-------|
+| **Raspberry Pi 5** | ~70 EUR | ~15W | ARM64 (aarch64) | La que usamos en este taller |
+| **Raspberry Pi 4** | ~50 EUR | ~10W | ARM64 (aarch64) | Mas lenta pero funcional |
+| **Orange Pi 5** | ~60 EUR | ~10W | ARM64 (aarch64) | Alternativa china, buen rendimiento |
+| **Rock Pi 4** | ~55 EUR | ~10W | ARM64 (aarch64) | Otra alternativa ARM |
+| **Mini PC x86** (ej: Beelink, MinisForum) | ~100-150 EUR | ~15-30W | x86_64 | Mas potente, usa el binario `linux-x86_64` |
+| **Laptop/PC viejo** | Gratis (ya lo tienes) | ~50-100W | x86_64 | Cualquier PC con Linux sirve |
+
+Para todas las opciones ARM64 los pasos son practicamente iguales a este taller (mismo binario `aarch64`). Para x86_64 solo cambia el archivo que descargas:
+
+```bash
+# En vez de aarch64, descargas x86_64
+wget https://github.com/logos-blockchain/logos-blockchain/releases/download/0.2.1/logos-blockchain-node-linux-x86_64-0.2.1.tar.gz
+wget https://github.com/logos-blockchain/logos-blockchain/releases/download/0.2.1/logos-blockchain-circuits-v0.4.1-linux-x86_64.tar.gz
+```
+
+El resto (init, ejecutar, verificar) es identico.
+
+> **Por que self-hosting?** Porque la gracia de una red descentralizada es que los nodos esten distribuidos en muchos lugares, controlados por muchas personas. Si todos corren nodos en el mismo datacenter de Amazon, no es realmente descentralizado — Amazon podria apagarlos todos a la vez.
+
+### VPS / Nube (servidor alquilado)
+
+Si no tienes hardware o necesitas un nodo siempre encendido sin depender de tu electricidad, puedes alquilar un servidor virtual (VPS). Es menos descentralizado (dependes de un proveedor), pero es facil y rapido.
+
+| Proveedor | Precio aprox. | Notas |
+|-----------|--------------|-------|
+| **Hetzner** | ~4-5 EUR/mes | Buena relacion precio/rendimiento, servidores en Europa |
+| **DigitalOcean** | ~6 USD/mes | Droplet basico, facil de usar |
+| **OVH** | ~3-5 EUR/mes | Economico, servidores en Europa |
+| **Contabo** | ~4-5 EUR/mes | Mucho almacenamiento por poco precio |
+
+**Pasos resumidos para VPS:**
+
+1. Crear un VPS con Ubuntu/Debian (minimo 2GB RAM, 20GB disco)
+2. Conectarte por SSH: `ssh root@IP-DE-TU-VPS`
+3. Seguir este taller desde el **Paso 3** (descargar binarios `x86_64`, init, ejecutar)
+
+```bash
+# Desde tu ordenador
+ssh root@123.456.789.10
+
+# Ya dentro del VPS (mismo proceso que en la Pi)
+wget https://github.com/logos-blockchain/logos-blockchain/releases/download/0.2.1/logos-blockchain-node-linux-x86_64-0.2.1.tar.gz
+wget https://github.com/logos-blockchain/logos-blockchain/releases/download/0.2.1/logos-blockchain-circuits-v0.4.1-linux-x86_64.tar.gz
+# ... etc (mismos pasos de extraccion, init y ejecucion)
+```
+
+> **Consideracion sobre descentralizacion:** Un nodo en la nube sigue sumando a la red — es mejor que no tener nodo. Pero si puedes, prioriza self-hosting. La diversidad de ubicaciones y proveedores es lo que hace fuerte a una red descentralizada.
+
+---
+
 ## Enlaces
 
 - [Logos Blockchain GitHub](https://github.com/logos-blockchain/logos-blockchain)
